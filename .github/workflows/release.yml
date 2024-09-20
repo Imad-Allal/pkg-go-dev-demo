@@ -23,8 +23,11 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-      - name: Create tag
-        id: tag_step
+      - name: Authenticate with GitHub
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Create and push tag
         run: |
           git tag -a v${{ steps.read_version.outputs.VERSION }} -m "Release version v${{ steps.read_version.outputs.VERSION }}"
           git push origin v${{ steps.read_version.outputs.VERSION }}
