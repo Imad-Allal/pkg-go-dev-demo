@@ -30,7 +30,7 @@ jobs:
       - name: Create and push tag
         run: |
           git tag -a v${{ steps.read_version.outputs.VERSION }} -m "Release version v${{ steps.read_version.outputs.VERSION }}"
-          git push origin v${{ steps.read_version.outputs.VERSION }}
+          git push --tags
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
