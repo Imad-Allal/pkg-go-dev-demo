@@ -23,10 +23,6 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-      - name: Authenticate with GitHub
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-
       - name: Create and push tag
         run: |
           git tag -a v${{ steps.read_version.outputs.VERSION }} -m "Release version v${{ steps.read_version.outputs.VERSION }}"
@@ -40,6 +36,8 @@ jobs:
           draft: false
           prerelease: false
           body: "Release of pkg-go-dev-demo version v${{ steps.read_version.outputs.VERSION }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub
 
       - name: Go to module directory and tidy up Go modules
         run: |
